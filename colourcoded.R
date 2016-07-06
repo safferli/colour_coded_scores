@@ -1,3 +1,7 @@
+library(ggplot2)
+
+library(data.table)
+
 # Colin
 
 x <- data.frame(
@@ -45,3 +49,37 @@ ggplot(df) +
   geom_bar(stat = "identity", aes(x = letter, y = score, fill = as.character(score))) +
   scale_fill_manual("Score", values = list_colors) +
   coord_flip()
+
+
+
+
+
+
+ggplot(df)+
+  geom_bar(aes(x=score))
+
+
+ggplot(df) +
+  geom_bar(stat = "identity", aes(x = letter, y = max_score), fill = "grey") +
+  geom_bar(stat = "identity", aes(x = letter, y = score, fill = as.character(score))) +
+  geom_text(aes(x=score, y=max_score, label = paste0(score, "/", max_score), hjust = 1, vjust = 0.5), nudge_y = -0.25)+
+  #scale_fill_brewer(palette = "RdYlGn") +
+  scale_fill_manual("Score", values = list_colors) +
+  coord_flip()
+
+
+## waffle-based: https://github.com/hrbrmstr/waffle
+
+#devtools::install_github("hrbrmstr/waffle")
+library(waffle)
+
+parts <- c(80, 30, 20, 10)
+
+waffle(parts, rows=8)
+
+parts <- c(`Un-breached\nUS Population`=(318-11-79), `Premera`=11, `Anthem`=79)
+waffle(parts, rows=8, size=1, colors=c("#969696", "#1879bf", "#009bda"))
+
+waffle(parts/10, rows=3, colors=c("#969696", "#1879bf", "#009bda")) 
+
+
