@@ -1,6 +1,5 @@
 library(ggplot2)
 
-library(data.table)
 
 # Colin
 
@@ -28,21 +27,24 @@ ggplot(x, aes(x=y, y=x, fill=factor(y))) +
   coord_cartesian(xlim=c(0,10)) +
   scale_fill_manual(values = colours) 
 
+
 # Dmitry
 
-df <- data.table(letter = c("a","b","c","d","e","f","g","h","i","j"),
+library(data.table)
+
+df <- data.table(letter = letters[1:10],
                 score = 1:10,
                 max_score = 10)
 
-df <- data.table(letter = c("a","b","c","d","e"),
+df <- data.table(letter = letters[1:5],
                  score = 1:5,
                  max_score = 10)
 
 list_colors <- c("1" = "#a50026", "2" = "#d73027",
-                 "3" = "#f46d43","4" = "#fdae61",
-                 "5" = "#fee08b","6" = "#d9ef8b",
-                 "7" = "#a6d96a","8" = "#66bd63",
-                 "9" = "#1a9850","10" = "#006837")
+                 "3" = "#f46d43", "4" = "#fdae61",
+                 "5" = "#fee08b", "6" = "#d9ef8b",
+                 "7" = "#a6d96a", "8" = "#66bd63",
+                 "9" = "#1a9850", "10" = "#006837")
 
 ggplot(df) +
   geom_bar(stat = "identity", aes(x = letter, y = max_score), fill = "grey") +
@@ -76,5 +78,6 @@ f.colourrank <- function(score){
 }
 
 f.colourrank(5)
-
+f.colourrank(0)
+f.colourrank(10)
 
