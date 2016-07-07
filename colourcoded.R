@@ -55,31 +55,26 @@ ggplot(df) +
 
 
 
-ggplot(df)+
-  geom_bar(aes(x=score))
-
-
-ggplot(df) +
-  geom_bar(stat = "identity", aes(x = letter, y = max_score), fill = "grey") +
-  geom_bar(stat = "identity", aes(x = letter, y = score, fill = as.character(score))) +
-  geom_text(aes(x=score, y=max_score, label = paste0(score, "/", max_score), hjust = 1, vjust = 0.5), nudge_y = -0.25)+
-  #scale_fill_brewer(palette = "RdYlGn") +
-  scale_fill_manual("Score", values = list_colors) +
-  coord_flip()
-
 
 ## waffle-based: https://github.com/hrbrmstr/waffle
 
 #devtools::install_github("hrbrmstr/waffle")
 library(waffle)
 
-parts <- c(80, 30, 20, 10)
 
-waffle(parts, rows=8)
+f.colourrank <- function(score){
+  input <- as.integer(score)
+  score <- c(rep(1L, input), (10L-input))
+  
+  # http://colorbrewer2.org/?type=diverging&scheme=RdYlGn&n=10
+  colours <- c("#a50026", "#d73027", "#f46d43", "#fdae61", "#fee08b", "#d9ef8b", "#a6d96a", "#66bd63", "#1a9850", "#006837")
+  # light grey: #F6F6F6
+  colours[input+1L] <- "#F6F6F6"
+  
+  # hrbrmstr is American it seems... 
+  waffle::waffle(score, rows = 1, colors = colours, legend_pos = "none")
+}
 
-parts <- c(`Un-breached\nUS Population`=(318-11-79), `Premera`=11, `Anthem`=79)
-waffle(parts, rows=8, size=1, colors=c("#969696", "#1879bf", "#009bda"))
-
-waffle(parts/10, rows=3, colors=c("#969696", "#1879bf", "#009bda")) 
+f.colourrank(5)
 
 
