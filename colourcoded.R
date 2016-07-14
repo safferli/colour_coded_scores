@@ -30,15 +30,11 @@ ggplot(x, aes(x=y, y=x, fill=factor(y))) +
 
 # Dmitry
 
-library(data.table)
-
-df <- data.table(letter = letters[1:10],
-                score = 1:10,
-                max_score = 10)
-
-df <- data.table(letter = letters[1:5],
-                 score = 1:5,
-                 max_score = 10)
+df <- data.frame(
+  letter = letters[1:5],
+  score = 1:5,
+  max_score = 10, stringsAsFactors = FALSE
+)
 
 list_colors <- c("1" = "#a50026", "2" = "#d73027",
                  "3" = "#f46d43", "4" = "#fdae61",
@@ -60,24 +56,31 @@ ggplot(df) +
 
 ## waffle-based: https://github.com/hrbrmstr/waffle
 
+library(ggplot2)
 #devtools::install_github("hrbrmstr/waffle")
 library(waffle)
+library(RColorBrewer)
 
 
 f.colourrank <- function(score){
   input <- as.integer(score)
   score <- c(rep(1L, input), (10L-input))
   
-  # http://colorbrewer2.org/?type=diverging&scheme=RdYlGn&n=10
-  colours <- c("#a50026", "#d73027", "#f46d43", "#fdae61", "#fee08b", "#d9ef8b", "#a6d96a", "#66bd63", "#1a9850", "#006837")
-  # light grey: #F6F6F6
+  # red -> yellow -> green palette: http://colorbrewer2.org/?type=diverging&scheme=RdYlGn&n=10
+  colours <- brewer.pal(10, "RdYlGn")
+  # only yellow -> green; has only 9 colours, so push it to 10 with colourRampPalette()
+  #colours <- colorRampPalette(brewer.pal(9,"YlGn"))(10)
+  # NA ranks: light grey (#F6F6F6)
   colours[input+1L] <- "#F6F6F6"
   
   # hrbrmstr is American it seems... 
   waffle::waffle(score, rows = 1, colors = colours, legend_pos = "none")
 }
 
+f.colourrank(10)
 f.colourrank(5)
 f.colourrank(0)
-f.colourrank(10)
+
+
+
 
