@@ -62,15 +62,15 @@ library(waffle)
 library(RColorBrewer)
 
 
-f.colourrank <- function(score){
+f.colourrank <- function(score, palette = "RdYlGn"){
   input <- as.integer(score)
+  # have each "score" as individual group, have the "missing" scores as one large remaining group
   score <- c(rep(1L, input), (10L-input))
   
-  # red -> yellow -> green palette: http://colorbrewer2.org/?type=diverging&scheme=RdYlGn&n=10
-  colours <- brewer.pal(10, "RdYlGn")
-  # only yellow -> green; has only 9 colours, so push it to 10 with colourRampPalette()
-  #colours <- colorRampPalette(brewer.pal(9,"YlGn"))(10)
+  # pick your brewer.pal() palette: "RdYlGn", or "YlGn"
+  colours <- colorRampPalette(brewer.pal(9, palette))(10)
   # NA ranks: light grey (#F6F6F6)
+  # the large remaining group ("missing scores") is now grey
   colours[input+1L] <- "#F6F6F6"
   
   # hrbrmstr is American it seems... 
@@ -78,6 +78,7 @@ f.colourrank <- function(score){
 }
 
 f.colourrank(10)
+f.colourrank(10, palette="YlGn")
 f.colourrank(5)
 f.colourrank(0)
 
