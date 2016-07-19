@@ -74,7 +74,8 @@ f.colourrank <- function(score, palette = "RdYlGn"){
   colours[input+1L] <- "#F6F6F6"
   
   # hrbrmstr is American it seems... 
-  waffle::waffle(score, rows = 1, colors = colours, legend_pos = "none")
+  waffle::waffle(score, rows = 1, colors = colours, legend_pos = "none")+
+    annotate(geom = "text", x=input, y=1, size = 5, fontface = "bold", label = paste0(input, "/10"))
 }
 
 f.colourrank(10)
